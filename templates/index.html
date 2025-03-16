@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Food Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smart Food Tracker</h1>
+            <p>Track your food expiry dates and reduce waste</p>
+        </header>
+
+        <div class="notification-badge" id="notification-badge">
+            <span id="expiring-count">0</span>
+        </div>
+
+        <div class="dashboard">
+            <div class="card" onclick="window.location.href='/add_food'">
+                <div class="card-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <h2>Add Food</h2>
+                <p>Add new food items to track</p>
+            </div>
+
+            <div class="card" onclick="window.location.href='/view_food'">
+                <div class="card-icon">
+                    <i class="fas fa-list-ul"></i>
+                </div>
+                <h2>View Food</h2>
+                <p>See all your tracked food items</p>
+            </div>
+
+            <div class="card" onclick="window.location.href='/notifications'">
+                <div class="card-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h2>Notifications</h2>
+                <p>Check items expiring soon</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Smart Food Tracker</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fetch the count of expiring items
+        fetch('/api/get_expiring_count')
+            .then(response => response.json())
+            .then(data => {
+                const expiringCount = document.getElementById('expiring-count');
+                expiringCount.textContent = data.count;
+                
+                if (data.count > 0) {
+                    document.getElementById('notification-badge').classList.add('active');
+                }
+            });
+    </script>
+</body>
+</html> 
