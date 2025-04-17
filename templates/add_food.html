@@ -4,93 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Food - Smart Food Tracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_food.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <nav class="navbar">
-            <div class="logo">
-                <a href="/">
-                    <i class="fas fa-leaf"></i>
-                    <span>Smart Food Tracker</span>
-                </a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="/add_food" class="nav-link active"><i class="fas fa-plus-circle"></i> Add Food</a></li>
-                <li><a href="/view_food" class="nav-link"><i class="fas fa-list-ul"></i> View Food</a></li>
-                <li><a href="/notifications" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></li>
-            </ul>
-        </nav>
-
-        <div class="content">
-            <header>
-                <h1>Add New Food Item</h1>
-                <p>Enter details about the food item you want to track</p>
-            </header>
-
-            <div class="form-container">
-                <form action="/api/add_food" method="POST">
-                    <div class="form-group">
-                        <label for="name">Food Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter food name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="category">Category</label>
-                        <select id="category" name="category" required>
-                            <option value="" disabled selected>Select a category</option>
-                            <option value="Fruits">Fruits</option>
-                            <option value="Vegetables">Vegetables</option>
-                            <option value="Dairy">Dairy</option>
-                            <option value="Meat">Meat</option>
-                            <option value="Seafood">Seafood</option>
-                            <option value="Bakery">Bakery</option>
-                            <option value="Canned Goods">Canned Goods</option>
-                            <option value="Frozen Foods">Frozen Foods</option>
-                            <option value="Snacks">Snacks</option>
-                            <option value="Beverages">Beverages</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="expiry_date">Expiry Date</label>
-                        <input type="date" id="expiry_date" name="expiry_date" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="text" id="quantity" name="quantity" placeholder="e.g., 500g, 2 packs">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="notes">Notes (Optional)</label>
-                        <textarea id="notes" name="notes" placeholder="Any additional information"></textarea>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add Food Item</button>
-                    </div>
-                </form>
-            </div>
+        <header>
+            <h1>Add Food</h1>
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </header>
+        
+        <div class="form-container">
+            <form action="{{ url_for('api_add_food') }}" method="POST" id="add-food-form">
+                <div class="form-group">
+                    <label for="food-name">Food Name</label>
+                    <input type="text" id="food-name" name="food-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expiry-date">Expiry Date</label>
+                    <input type="date" id="expiry-date" name="expiry-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                </div>
+                
+                <button type="submit" class="btn-submit">Add Food Item</button>
+            </form>
         </div>
-
+        
         <footer>
             <p>&copy; 2025 Smart Food Tracker</p>
         </footer>
     </div>
-
-    <script>
-        // Set the default expiry date to today
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date();
-            const formattedDate = today.toISOString().substr(0, 10);
-            document.getElementById('expiry_date').value = formattedDate;
-        });
-    </script>
 </body>
-</html> 
+</html>

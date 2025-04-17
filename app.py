@@ -90,11 +90,9 @@ def api_add_food():
     
     new_item = {
         'id': str(uuid.uuid4()),
-        'name': request.form.get('name'),
-        'category': request.form.get('category'),
-        'expiry_date': request.form.get('expiry_date'),
+        'name': request.form.get('food-name'),
+        'expiry_date': request.form.get('expiry-date'),
         'quantity': request.form.get('quantity'),
-        'notes': request.form.get('notes'),
         'added_date': datetime.now().strftime('%Y-%m-%d')
     }
     
@@ -113,7 +111,7 @@ def api_delete_food(item_id):
     return redirect(url_for('view_food'))
 
 @app.route('/api/get_expiring_count')
-def api_get_expiring_count():
+def get_expiring_count():
     """API endpoint to get the count of items expiring soon"""
     food_items = load_food_items()
     
@@ -128,4 +126,6 @@ def api_get_expiring_count():
     return jsonify({'count': expiring_count})
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    # Changed from debug=True to debug=False for production
+    # Added host='0.0.0.0' to make it accessible from other devices if needed
+    app.run(host='0.0.0.0', port=5000, debug=False)
