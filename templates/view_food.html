@@ -2,177 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Food - Smart Food Tracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_food.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>View Food</title>
+    <link rel="stylesheet" href="/static/view_food.css">
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <div class="logo">
-                <a href="/">
-                    <i class="fas fa-leaf"></i>
-                    <span>Smart Food Tracker</span>
-                </a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="/add_food" class="nav-link"><i class="fas fa-plus-circle"></i> Add Food</a></li>
-                <li><a href="/view_food" class="nav-link active"><i class="fas fa-list-ul"></i> View Food</a></li>
-                <li><a href="/notifications" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></li>
-            </ul>
-        </nav>
-
-        <div class="content">
-            <header>
-                <h1>Your Food Items</h1>
-                <p>View and manage all your tracked food items</p>
-            </header>
-
-            <div class="search-filter">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="search-input" placeholder="Search food items...">
-                </div>
-                <div class="filter-box">
-                    <label for="category-filter">Filter by:</label>
-                    <select id="category-filter">
-                        <option value="all">All Categories</option>
-                        <option value="Fruits">Fruits</option>
-                        <option value="Vegetables">Vegetables</option>
-                        <option value="Dairy">Dairy</option>
-                        <option value="Meat">Meat</option>
-                        <option value="Seafood">Seafood</option>
-                        <option value="Bakery">Bakery</option>
-                        <option value="Canned Goods">Canned Goods</option>
-                        <option value="Frozen Foods">Frozen Foods</option>
-                        <option value="Snacks">Snacks</option>
-                        <option value="Beverages">Beverages</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="sort-box">
-                    <label for="sort-by">Sort by:</label>
-                    <select id="sort-by">
-                        <option value="expiry-asc">Expiry Date (Soonest First)</option>
-                        <option value="expiry-desc">Expiry Date (Latest First)</option>
-                        <option value="name-asc">Name (A-Z)</option>
-                        <option value="name-desc">Name (Z-A)</option>
-                        <option value="added-desc">Recently Added</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="food-items-container">
-                {% if food_items %}
-                    <div class="food-items-grid" id="food-items-grid">
-                        {% for item in food_items %}
-                            <div class="food-item" data-category="{{ item.category }}" data-name="{{ item.name }}" data-expiry="{{ item.expiry_date }}" data-added="{{ item.added_date }}">
-                                <div class="food-item-header">
-                                    <span class="category-badge">{{ item.category }}</span>
-                                    
-                                    {% if item.days_left <= 0 %}
-                                        <span class="expiry-badge expired">Expired</span>
-                                    {% elif item.days_left <= 2 %}
-                                        <span class="expiry-badge expiring-soon">Expiring Soon</span>
-                                    {% else %}
-                                        <span class="expiry-badge">{{ item.days_left }} days left</span>
-                                    {% endif %}
-                                </div>
-                                <div class="food-item-content">
-                                    <h3>{{ item.name }}</h3>
-                                    <p class="expiry-date"><i class="far fa-calendar-alt"></i> Expires: {{ item.expiry_date }}</p>
-                                    {% if item.quantity %}
-                                        <p class="quantity"><i class="fas fa-balance-scale"></i> Quantity: {{ item.quantity }}</p>
-                                    {% endif %}
-                                    {% if item.notes %}
-                                        <p class="notes"><i class="far fa-sticky-note"></i> Notes: {{ item.notes }}</p>
-                                    {% endif %}
-                                </div>
-                                <div class="food-item-actions">
-                                    <form action="/api/delete_food/{{ item.id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                                        <button type="submit" class="delete-btn"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="no-items">
-                        <i class="fas fa-box-open"></i>
-                        <h2>No food items found</h2>
-                        <p>Start tracking your food by adding items</p>
-                        <a href="/add_food" class="btn btn-primary">Add Food Item</a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <footer>
-            <p>&copy; 2025 Smart Food Tracker</p>
-        </footer>
+    <div class="navbar">
+        <a href="/dashboard">Home</a>
+        <a href="/add_food">Add Food</a>
+        <a href="/notifications">Notifications</a>
+        <a href="/logout">Logout</a>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search-input');
-            const categoryFilter = document.getElementById('category-filter');
-            const sortBy = document.getElementById('sort-by');
-            const foodItemsGrid = document.getElementById('food-items-grid');
-            
-            if (!foodItemsGrid) return; // No food items to filter
-            
-            const foodItems = Array.from(foodItemsGrid.getElementsByClassName('food-item'));
-            
-            // Function to filter and sort food items
-            function filterAndSortItems() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const categoryValue = categoryFilter.value;
-                const sortValue = sortBy.value;
-                
-                // Filter items
-                foodItems.forEach(item => {
-                    const name = item.getAttribute('data-name').toLowerCase();
-                    const category = item.getAttribute('data-category');
-                    const matchesSearch = name.includes(searchTerm);
-                    const matchesCategory = categoryValue === 'all' || category === categoryValue;
-                    
-                    item.style.display = matchesSearch && matchesCategory ? 'block' : 'none';
-                });
-                
-                // Sort items
-                const visibleItems = foodItems.filter(item => item.style.display !== 'none');
-                
-                visibleItems.sort((a, b) => {
-                    if (sortValue === 'expiry-asc') {
-                        return a.getAttribute('data-expiry').localeCompare(b.getAttribute('data-expiry'));
-                    } else if (sortValue === 'expiry-desc') {
-                        return b.getAttribute('data-expiry').localeCompare(a.getAttribute('data-expiry'));
-                    } else if (sortValue === 'name-asc') {
-                        return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
-                    } else if (sortValue === 'name-desc') {
-                        return b.getAttribute('data-name').localeCompare(a.getAttribute('data-name'));
-                    } else if (sortValue === 'added-desc') {
-                        return b.getAttribute('data-added').localeCompare(a.getAttribute('data-added'));
-                    }
-                });
-                
-                // Reorder items in the DOM
-                visibleItems.forEach(item => {
-                    foodItemsGrid.appendChild(item);
-                });
-            }
-            
-            // Add event listeners
-            searchInput.addEventListener('input', filterAndSortItems);
-            categoryFilter.addEventListener('change', filterAndSortItems);
-            sortBy.addEventListener('change', filterAndSortItems);
-            
-            // Initial sort
-            filterAndSortItems();
-        });
-    </script>
+    <div class="container">
+        <h2>Your Food List</h2>
+        {% if foods %}
+            <div class="food-list">
+                {% for food in foods %}
+                    <div class="food-item">
+                        <h3>{{ food.name }}</h3>
+                        <p><strong>Category:</strong> {{ food.category }}</p>
+                        <p><strong>Quantity:</strong> {{ food.quantity }} {{ food.unit }}</p>
+                        <p><strong>Expiry:</strong> {{ food.expiry }}</p>
+                        <a class="delete-btn" href="/delete_food/{{ loop.index0 }}">Delete</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No food items found.</p>
+        {% endif %}
+    </div>
 </body>
-</html> 
+</html>

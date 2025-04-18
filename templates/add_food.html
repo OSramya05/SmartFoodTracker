@@ -3,66 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Food</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='add_food.css') }}">
-    <script>
-        function updateQuantityUnits() {
-            const category = document.getElementById("category").value;
-            const unitSelect = document.getElementById("quantity_unit");
-
-            const unitOptions = {
-                "Fruits": "kgs",
-                "Vegetables": "kgs",
-                "Dairy": "packets",
-                "Meat": "kgs",
-                "Seafood": "kgs",
-                "Bakery": "packets",
-                "Canned Goods": "packets",
-                "Frozen Foods": "packets",
-                "Snacks": "packets",
-                "Beverages": "litres",
-                "Other": "units"
-            };
-
-            unitSelect.value = unitOptions[category] || "units";
-        }
-    </script>
+    <link rel="stylesheet" href="/static/add_food.css">
 </head>
 <body>
-    <h1>Add Food Item</h1>
-    <form action="{{ url_for('api_add_food') }}" method="POST">
-        <label for="name">Food Name:</label>
-        <input type="text" name="name" required><br><br>
+    <div class="navbar">
+        <a href="/dashboard">Home</a>
+        <a href="/view_food">View Food</a>
+        <a href="/notifications">Notifications</a>
+        <a href="/logout">Logout</a>
+    </div>
 
-        <label for="category">Category:</label>
-        <select name="category" id="category" onchange="updateQuantityUnits()" required>
-            <option value="">Select Category</option>
-            <option value="Fruits">Fruits</option>
-            <option value="Vegetables">Vegetables</option>
-            <option value="Dairy">Dairy</option>
-            <option value="Meat">Meat</option>
-            <option value="Seafood">Seafood</option>
-            <option value="Bakery">Bakery</option>
-            <option value="Canned Goods">Canned Goods</option>
-            <option value="Frozen Foods">Frozen Foods</option>
-            <option value="Snacks">Snacks</option>
-            <option value="Beverages">Beverages</option>
-            <option value="Other">Other</option>
-        </select><br><br>
+    <div class="container">
+        <h2>Add Food Item</h2>
+        <form action="/add_food" method="POST">
+            <label for="name">Food Name:</label>
+            <input type="text" id="name" name="name" required>
 
-        <label for="quantity">Quantity:</label>
-        <input type="text" name="quantity" placeholder="e.g., 2"><br><br>
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="Fruits">Fruits</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Meat">Meat</option>
+                <option value="Seafood">Seafood</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Canned Goods">Canned Goods</option>
+                <option value="Frozen Foods">Frozen Foods</option>
+                <option value="Snacks">Snacks</option>
+                <option value="Beverages">Beverages</option>
+                <option value="Other">Other</option>
+            </select>
 
-        <label for="quantity_unit">Unit:</label>
-        <input type="text" id="quantity_unit" name="quantity_unit" readonly><br><br>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
 
-        <label for="expiry_date">Expiry Date:</label>
-        <input type="date" name="expiry_date" required><br><br>
+            <label for="unit">Unit:</label>
+            <select id="unit" name="unit" required>
+                <option value="pieces">Pieces</option>
+                <option value="grams">Grams</option>
+                <option value="kg">Kilograms</option>
+                <option value="ml">Milliliters</option>
+                <option value="liters">Liters</option>
+                <option value="packs">Packs</option>
+                <option value="bottles">Bottles</option>
+                <option value="boxes">Boxes</option>
+            </select>
 
-        <label for="notes">Notes:</label>
-        <textarea name="notes"></textarea><br><br>
+            <label for="expiry">Expiry Date:</label>
+            <input type="date" id="expiry" name="expiry" required>
 
-        <button type="submit">Add Food</button>
-    </form>
+            <button type="submit">Add Food</button>
+        </form>
+    </div>
 </body>
 </html>
-
