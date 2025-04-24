@@ -1,52 +1,96 @@
+/* General Reset & Body Styling */
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #43cea2, #185a9d);
-    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%); /* Light green gradient */
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
+/* Container Styling */
 .register-container {
-    background: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    width: 350px;
+    background: #ffffff;
+    padding: 45px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px; /* Max width for larger screens */
+    box-sizing: border-box; /* Include padding in width */
 }
 
-.register-container h1 {
-    color: #185a9d;
-    margin-bottom: 20px;
+/* Heading */
+h1 {
+    color: #388e3c; /* Medium Green */
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: 600;
 }
 
-input {
-    width: 90%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+/* Input Fields */
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 24px); /* Full width minus padding */
+    padding: 14px;
+    margin: 12px 0;
+    border: 1px solid #a5d6a7; /* Light Green border */
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #388e3c; /* Medium Green on focus */
+    box-shadow: 0 0 5px rgba(56, 142, 60, 0.3);
+    outline: none;
+}
+
+/* Button Styling */
 button {
-    width: 95%;
-    padding: 12px;
-    background: #185a9d;
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    background-color: #4caf50; /* Standard Green */
+    color: white;
     border: none;
-    border-radius: 6px;
-    color: #fff;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background: #0f3d6d;
+    background-color: #388e3c; /* Medium Green */
+    transform: translateY(-2px); /* Slight lift effect */
 }
 
+/* Error Message */
 .error {
-    color: red;
-    margin-bottom: 10px;
+    color: #d32f2f; /* Material Design Red */
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Link Styling */
+p {
+    margin-top: 25px;
+    color: #555;
+}
+
+a {
+    color: #388e3c; /* Medium Green */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #1b5e20; /* Dark Green */
+    text-decoration: underline;
 }

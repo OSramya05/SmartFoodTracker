@@ -1,3 +1,19 @@
 {
-    "Ramyaos": []
+    "Ramyaos": [],
+    "bruh": [
+        {
+            "name": "ramya",
+            "quantity": "1",
+            "unit": "kg",
+            "category": "Meat",
+            "expiry": "2025-04-25"
+        },
+        {
+            "name": "fine",
+            "quantity": "100",
+            "unit": "grams",
+            "category": "Fruits",
+            "expiry": "2025-05-01"
+        }
+    ]
 }
