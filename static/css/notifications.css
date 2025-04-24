@@ -1,61 +1,132 @@
+/* General Reset & Body Styling */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #ff9a9e, #fad0c4);
-    color: #333;
     margin: 0;
     padding: 0;
-  }
-  
-  .navbar {
-    background-color: #ff6f91;
-    padding: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff3e0; /* Very light orange/peach */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #ff9800; /* Amber/Orange */
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
-  }
-  
-  .navbar a {
+    gap: 30px; /* Space between links */
+}
+
+.navbar a {
     color: white;
     text-decoration: none;
-    margin: 0 20px;
-    font-weight: bold;
-  }
-  
-  .container {
-    padding: 40px;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #e65100; /* Darker Orange */
+}
+
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px; /* Add horizontal padding */
     text-align: center;
-  }
-  
-  .notif-list {
-    display: flex;
-    flex-wrap: wrap;
+}
+
+.container h2 {
+    color: #ef6c00; /* Darker Amber/Orange */
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+/* Notification List Grid */
+.notif-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 25px;
     justify-content: center;
-  }
-  
-  .notif-item {
-    background: #fff;
-    margin: 15px;
-    padding: 20px;
-    width: 250px;
+    padding: 0;
+    list-style: none;
+}
+
+/* Notification Item Card Styling */
+.notif-item {
+    background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  }
-  
-  .notif-item h3 {
+    padding: 25px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 5px solid #ffa726; /* Lighter Orange accent border */
+    position: relative; /* For potential future icons/badges */
+}
+
+.notif-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.notif-item h3 {
     margin-top: 0;
-    color: #ff6f91;
-  }
-  
-  .delete-btn {
+    margin-bottom: 15px;
+    color: #f57c00; /* Medium Orange */
+    font-size: 1.4em;
+    font-weight: 600;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.notif-item p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 1em;
+}
+
+.notif-item p strong {
+    color: #333;
+    min-width: 80px; /* Align text */
     display: inline-block;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: #e63946;
+}
+
+/* Expiry date emphasis */
+.notif-item p:last-of-type { /* Target the expiry paragraph */
+    font-weight: bold;
+    color: #d84315; /* Deep Orange for urgency */
+}
+
+
+/* Delete Button */
+.delete-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 18px;
+    background: #e57373; /* Lighter Red */
     color: white;
     text-decoration: none;
     border-radius: 6px;
-  }
-  
-  .delete-btn:hover {
-    background: #b02a37;
-  }
-  
+    font-size: 0.95em;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #ef5350; /* Standard Red */
+    transform: translateY(-1px);
+}
+
+/* No items message */
+.container > p {
+    font-size: 1.1em;
+    color: #777;
+    margin-top: 40px;
+}

@@ -1,68 +1,155 @@
+/* General Reset & Body Styling */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
-    color: #333;
     margin: 0;
     padding: 0;
-  }
-  
-  .navbar {
-    background-color: #4facfe;
-    padding: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7f6; /* Very light grey-green */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #00796b; /* Darker Teal */
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
-  }
-  
-  .navbar a {
+    gap: 30px; /* Space between links */
+}
+
+.navbar a {
     color: white;
     text-decoration: none;
-    margin: 0 20px;
-    font-weight: bold;
-  }
-  
-  .container {
-    max-width: 500px;
-    margin: 50px auto;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #004d40; /* Even Darker Teal */
+}
+
+/* Main Container */
+.container {
+    max-width: 650px;
+    margin: 40px auto;
     background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  }
-  
-  .container h2 {
+    padding: 35px 45px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.container h2 {
     text-align: center;
-    color: #4facfe;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  
-  input, select {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  button {
+    color: #00796b; /* Darker Teal */
+    margin-bottom: 30px;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+/* Form Styling */
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px 30px; /* Row gap, Column gap */
+    align-items: center;
+}
+
+/* Labels */
+label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: -10px; /* Pull label closer to input */
+    grid-column: span 2; /* Make labels span both columns initially */
+    text-align: left;
+}
+
+/* Specific label placement for side-by-side fields */
+form label[for="quantity"],
+form label[for="unit"],
+form label[for="expiry"] {
+    grid-column: auto; /* Reset span for specific labels */
+}
+form label[for="expiry"] {
+     grid-column: span 2; /* Expiry date spans full width */
+}
+
+
+/* Inputs and Selects */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    width: 100%; /* Full width within grid cell */
+    padding: 12px;
+    border: 1px solid #b2dfdb; /* Light Teal border */
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: #00796b; /* Darker Teal on focus */
+    box-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
+    outline: none;
+}
+
+/* Specific input placement */
+form input[name="name"],
+form select[name="category"],
+form input[name="expiry"] {
+    grid-column: span 2; /* Make these inputs span both columns */
+}
+
+form input[name="quantity"] {
+    grid-column: 1 / 2; /* First column */
+}
+
+form select[name="unit"] {
+    grid-column: 2 / 3; /* Second column */
+}
+
+/* Button Styling */
+button[type="submit"] {
+    grid-column: span 2; /* Span button across both columns */
+    padding: 14px;
     margin-top: 20px;
-    padding: 10px;
-    background-color: #4facfe;
+    background-color: #009688; /* Standard Teal */
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    background-color: #3b8ee6;
-  }
-  
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #00796b; /* Darker Teal */
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    form {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+        gap: 15px;
+    }
+
+    label,
+    input,
+    select,
+    button[type="submit"] {
+        grid-column: span 1 !important; /* Ensure all elements take full width */
+    }
+
+    .container {
+        margin: 20px auto;
+        padding: 25px;
+    }
+}

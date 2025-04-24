@@ -1,58 +1,96 @@
+/* General Reset & Body Styling */
 body {
-    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); /* Light teal gradient */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
 }
 
+/* Container Styling */
 .container {
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+    padding: 45px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     text-align: center;
-    width: 350px;
+    width: 100%;
+    max-width: 400px; /* Max width for larger screens */
+    box-sizing: border-box; /* Include padding in width */
 }
 
+/* Heading */
 h1 {
-    color: #3498db;
-    margin-bottom: 20px;
+    color: #00796b; /* Darker Teal */
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: 600;
 }
 
-input {
-    width: 90%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
+/* Input Fields */
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 24px); /* Full width minus padding */
+    padding: 14px;
+    margin: 12px 0;
+    border: 1px solid #b2dfdb; /* Light Teal border */
     border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #00796b; /* Darker Teal on focus */
+    box-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
+    outline: none;
+}
+
+/* Button Styling */
 button {
     width: 100%;
-    padding: 12px;
-    background-color: #3498db;
+    padding: 14px;
+    margin-top: 15px;
+    background-color: #00796b; /* Darker Teal */
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 1.1em;
+    font-weight: 500;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: #004d40; /* Even Darker Teal */
+    transform: translateY(-2px); /* Slight lift effect */
 }
 
+/* Error Message */
 .error {
-    color: red;
-    margin-bottom: 10px;
+    color: #d32f2f; /* Material Design Red */
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Link Styling */
+p {
+    margin-top: 25px;
+    color: #555;
 }
 
 a {
-    color: #3498db;
+    color: #00796b; /* Darker Teal */
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #004d40; /* Even Darker Teal */
+    text-decoration: underline;
 }
