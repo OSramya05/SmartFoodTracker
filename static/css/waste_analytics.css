@@ -9,14 +9,24 @@ body {
     line-height: 1.6;
 }
 
+/* Logo Styling */
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    height: 50px; /* Adjust size as needed */
+    width: auto;
+}
+
 /* Navbar Styling - Consistent with others, maybe slightly different color */
 .navbar {
     background-color: #607d8b; /* Blue Grey */
-    padding: 15px 0;
+    padding: 15px 0 15px 80px; /* Added left padding to avoid overlap */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Keep items centered relative to the padded area */
     gap: 30px; /* Space between links */
+    position: relative; /* Needed for absolute positioning of logo relative to body/viewport */
 }
 
 .navbar a {
@@ -36,7 +46,7 @@ body {
 /* Main Container */
 .container {
     max-width: 1000px;
-    margin: 40px auto;
+    margin: 80px auto; /* Increase top margin to ensure space below logo/navbar */
     padding: 20px 30px;
     background: #ffffff;
     border-radius: 15px;
@@ -228,5 +238,19 @@ body {
 
     .container {
         padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        top: 10px;
+        left: 10px;
+        height: 40px;
+    }
+    .navbar {
+        padding-left: 60px; /* Adjust padding */
+    }
+    .container {
+         margin-top: 70px;
     }
 }
