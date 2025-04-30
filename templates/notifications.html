@@ -10,6 +10,7 @@
         <a href="/dashboard">Home</a>
         <a href="/add_food">Add Food</a>
         <a href="/view_food">View Food</a>
+        <a href="/waste_analytics">Waste Analytics</a> <!-- Added link -->
         <a href="/logout">Logout</a>
     </div>
 
@@ -23,7 +24,8 @@
                         <p><strong>Category:</strong> {{ food.category }}</p>
                         <p><strong>Quantity:</strong> {{ food.quantity }} {{ food.unit }}</p>
                         <p><strong>Expiry:</strong> {{ food.expiry }}</p>
-                        <a class="delete-btn" href="/delete_notification/{{ loop.index0 }}">Delete</a>
+                        <!-- Use original_index passed from the route -->
+                        <a class="delete-btn" href="/delete_notification/{{ food.original_index }}">Mark as Wasted & Remove</a>
                     </div>
                 {% endfor %}
             </div>

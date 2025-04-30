@@ -10,6 +10,7 @@
         <a href="/dashboard">Home</a>
         <a href="/add_food">Add Food</a>
         <a href="/notifications">Notifications</a>
+        <a href="/waste_analytics">Waste Analytics</a> <!-- Added link -->
         <a href="/logout">Logout</a>
     </div>
 
@@ -23,6 +24,7 @@
                         <p><strong>Category:</strong> {{ food.category }}</p>
                         <p><strong>Quantity:</strong> {{ food.quantity }} {{ food.unit }}</p>
                         <p><strong>Expiry:</strong> {{ food.expiry }}</p>
+                        <!-- Pass original index to delete_food -->
                         <a class="delete-btn" href="/delete_food/{{ loop.index0 }}">Delete</a>
                     </div>
                 {% endfor %}

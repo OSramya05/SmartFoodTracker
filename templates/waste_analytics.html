@@ -1,0 +1,114 @@
+\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Waste Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/waste_analytics.css') }}">
+    <!-- Optional: Add chart library like Chart.js if needed -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+</head>
+<body>
+    <div class="navbar">
+        <a href="/dashboard">Home</a>
+        <a href="/add_food">Add Food</a>
+        <a href="/view_food">View Food</a>
+        <a href="/notifications">Notifications</a>
+        <a href="/waste_analytics">Waste Analytics</a> <!-- Added link -->
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="container">
+        <h2>Waste Analytics</h2>
+
+        <!-- Analytics Summary -->
+        <div class="analytics-summary">
+            <h3>Summary</h3>
+            <p><strong>Total Items Wasted:</strong> {{ analytics.total_wasted }}</p>
+            {% if analytics.waste_by_category %}
+            <p><strong>Waste by Category:</strong></p>
+            <ul>
+                {% for category, count in analytics.waste_by_category.items() %}
+                <li>{{ category }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No waste recorded by category yet.</p>
+            {% endif %}
+            <!-- Add more analytics here (e.g., charts) -->
+        </div>
+
+        <!-- Manually Log Waste Form -->
+        <div class="log-waste-form">
+            <h3>Log Already Wasted Food</h3>
+            <form action="/waste_analytics" method="POST">
+                <label for="name">Food Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="Fruits">Fruits</option>
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Meat">Meat</option>
+                    <option value="Seafood">Seafood</option>
+                    <option value="Bakery">Bakery</option>
+                    <option value="Canned Goods">Canned Goods</option>
+                    <option value="Frozen Foods">Frozen Foods</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Beverages">Beverages</option>
+                    <option value="Leftovers">Leftovers</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="quantity">Quantity (Optional):</label>
+                <input type="number" id="quantity" name="quantity">
+
+                <label for="unit">Unit (Optional):</label>
+                <select id="unit" name="unit">
+                    <option value="">-- Select Unit --</option>
+                    <option value="pieces">Pieces</option>
+                    <option value="grams">Grams</option>
+                    <option value="kg">Kilograms</option>
+                    <option value="ml">Milliliters</option>
+                    <option value="liters">Liters</option>
+                    <option value="packs">Packs</option>
+                    <option value="bottles">Bottles</option>
+                    <option value="boxes">Boxes</option>
+                    <option value="servings">Servings</option>
+                </select>
+
+                <label for="wasted_date">Date Wasted (Optional, defaults to today):</label>
+                <input type="date" id="wasted_date" name="wasted_date">
+
+                <button type="submit">Log Wasted Item</button>
+            </form>
+        </div>
+
+         <!-- Wasted Items List -->
+        <div class="wasted-list-section">
+            <h3>Wasted Items History</h3>
+            {% if wasted_items %}
+                <ul class="wasted-list">
+                    {% for item in wasted_items %}
+                        <li class="wasted-item">
+                            <h4>{{ item.name }}</h4>
+                            <p><strong>Category:</strong> {{ item.category }}</p>
+                            {% if item.quantity != 'N/A' %}
+                            <p><strong>Quantity:</strong> {{ item.quantity }} {{ item.unit }}</p>
+                            {% endif %}
+                            <p><strong>Date Wasted:</strong> {{ item.wasted_date }}</p>
+                            {% if item.expiry != 'N/A' %}
+                            <p><strong>Original Expiry:</strong> {{ item.expiry }}</p>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No wasted items recorded yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>
