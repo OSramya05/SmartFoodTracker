@@ -22,6 +22,11 @@ body {
     box-sizing: border-box; /* Include padding in width */
 }
 
+/* Adjust login container if needed */
+.login-container {
+    margin-top: 80px; /* Add margin to push content down */
+}
+
 /* Heading */
 h1 {
     color: #00796b; /* Darker Teal */
@@ -93,4 +98,25 @@ a {
 a:hover {
     color: #004d40; /* Even Darker Teal */
     text-decoration: underline;
+}
+
+/* Logo Styling */
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    height: 50px; /* Adjust size as needed */
+    width: auto;
+}
+
+/* Responsive adjustments for logo */
+@media (max-width: 768px) {
+    .logo {
+        top: 10px;
+        left: 10px;
+        height: 40px;
+    }
+    .login-container {
+        margin-top: 60px;
+    }
 }

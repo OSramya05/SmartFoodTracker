@@ -11,11 +11,12 @@ body {
 /* Navbar Styling */
 .navbar {
     background-color: #ff9800; /* Amber/Orange */
-    padding: 15px 0;
+    padding: 15px 0 15px 80px; /* Added left padding to avoid overlap */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Keep items centered relative to the padded area */
     gap: 30px; /* Space between links */
+    position: relative; /* Needed for absolute positioning of logo relative to body/viewport */
 }
 
 .navbar a {
@@ -32,10 +33,19 @@ body {
     background-color: #e65100; /* Darker Orange */
 }
 
+/* Logo Styling */
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    height: 50px; /* Adjust size as needed */
+    width: auto;
+}
+
 /* Main Container */
 .container {
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 80px auto; /* Increase top margin to ensure space below logo/navbar */
     padding: 0 20px; /* Add horizontal padding */
     text-align: center;
 }
@@ -129,4 +139,19 @@ body {
     font-size: 1.1em;
     color: #777;
     margin-top: 40px;
+}
+
+/* Responsive adjustments for logo */
+@media (max-width: 768px) {
+    .logo {
+        top: 10px;
+        left: 10px;
+        height: 40px;
+    }
+    .navbar {
+        padding-left: 60px; /* Adjust padding */
+    }
+    .container {
+         margin-top: 70px;
+    }
 }

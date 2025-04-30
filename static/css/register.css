@@ -20,6 +20,7 @@ body {
     width: 100%;
     max-width: 400px; /* Max width for larger screens */
     box-sizing: border-box; /* Include padding in width */
+    margin-top: 80px; /* Add margin to push content down */
 }
 
 /* Heading */
@@ -93,4 +94,25 @@ a {
 a:hover {
     color: #1b5e20; /* Dark Green */
     text-decoration: underline;
+}
+
+/* Logo Styling */
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    height: 50px; /* Adjust size as needed */
+    width: auto;
+}
+
+/* Responsive adjustments for logo */
+@media (max-width: 768px) {
+    .logo {
+        top: 10px;
+        left: 10px;
+        height: 40px;
+    }
+    .register-container {
+        margin-top: 60px;
+    }
 }
