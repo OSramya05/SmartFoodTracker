@@ -12,9 +12,12 @@ A Flask-based web application that helps users track food items and their expiry
 - User registration and authentication with secure sessions
 - Add and manage food items with expiry dates
 - Smart notifications for items expiring within 2 days
-- Waste analytics to track and categorize wasted food
-- Modern, responsive UI with green theme
+- **IoT Integration**: Real-time weight tracking via load cell sensors
+- **NGO Finder**: Connect with nearby NGOs to donate food before expiry
+- **Enhanced Waste Analytics**: Monthly reports, category breakdown, and historical tracking
+- Modern, professional UI with gradient themes
 - Mobile and desktop friendly design
+- Restaurant-grade food management system
 
 ## Technical Architecture
 
@@ -109,10 +112,32 @@ A Flask-based web application that helps users track food items and their expiry
 - Fixed gunicorn_config.py to use PORT environment variable for proper deployment
 - Updated .gitignore to exclude Python library paths
 
+### October 11, 2025 - Major Feature Enhancements
+- **IoT Integration**: Added API endpoints for hardware integration
+  - Load cell weight tracking (auto-updates food quantities)
+  - Sensor data collection (temperature, humidity, gas levels)
+  - Real-time inventory management via IoT devices
+- **NGO Finder**: New feature to connect with nearby NGOs
+  - Display local NGOs with contact information
+  - Show items available for donation (expiring within 2 days)
+  - Direct call and email integration
+- **Enhanced Waste Analytics**: Comprehensive waste tracking
+  - Monthly waste reports with category breakdown
+  - Total weight tracking (kg)
+  - Visual progress bars for category analysis
+  - Historical waste item tracking
+- **UI/UX Upgrade**: Professional, restaurant-grade design
+  - Modern gradient themes (purple to pink)
+  - Card-based dashboard with feature icons
+  - Responsive design for all devices
+  - Professional color schemes and animations
+
 ## User Preferences
 - No specific preferences documented yet
 
 ## Routes
+
+### Web Routes
 - `/` - Redirects to login
 - `/register` - User registration
 - `/login` - User login
@@ -120,10 +145,19 @@ A Flask-based web application that helps users track food items and their expiry
 - `/add_food` - Add new food items
 - `/view_food` - View all food items
 - `/notifications` - View expiring items (within 2 days)
-- `/waste_analytics` - View and log wasted food items
+- `/ngo_finder` - Find nearby NGOs for food donation
+- `/waste_analytics` - Enhanced waste analytics with monthly reports
 - `/delete_food/<index>` - Delete food item
 - `/delete_notification/<index>` - Mark item as wasted
 - `/logout` - User logout
+
+### IoT API Endpoints
+- `POST /api/update_weight` - Update food item weight from load cell
+  - Parameters: username, item_name, weight
+- `GET /api/get_food_items` - Get user's food items for hardware display
+  - Parameters: username
+- `POST /api/sensor_data` - Receive sensor readings (temperature, humidity, gas levels)
+  - Parameters: username, temperature, humidity, methane, air_quality
 
 ## Development Notes
 - The app uses JSON files for data persistence (users.json and food_data.json)

@@ -2,113 +2,169 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Waste Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Analytics - Smart Food Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/waste_analytics.css') }}">
-    <!-- Optional: Add chart library like Chart.js if needed -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 </head>
 <body>
-    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="SmartFoodTracker Logo" class="logo">
-    <div class="navbar">
-        <a href="/dashboard">Home</a>
-        <a href="/add_food">Add Food</a>
-        <a href="/view_food">View Food</a>
-        <a href="/notifications">Notifications</a>
-        <a href="/waste_analytics">Waste Analytics</a> <!-- Added link -->
-        <a href="/logout">Logout</a>
-    </div>
-
     <div class="container">
-        <h2>Waste Analytics</h2>
+        <header>
+            <a href="/dashboard" class="logo">
+                <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo">
+            </a>
+            <h1>📊 Waste Analytics & Insights</h1>
+            <p class="subtitle">Track, analyze, and reduce food waste</p>
+        </header>
 
-        <!-- Analytics Summary -->
-        <div class="analytics-summary">
-            <h3>Summary</h3>
-            <p><strong>Total Items Wasted:</strong> {{ analytics.total_wasted }}</p>
-            {% if analytics.waste_by_category %}
-            <p><strong>Waste by Category:</strong></p>
-            <ul>
-                {% for category, count in analytics.waste_by_category.items() %}
-                <li>{{ category }}: {{ count }}</li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p>No waste recorded by category yet.</p>
-            {% endif %}
-            <!-- Add more analytics here (e.g., charts) -->
+        <!-- Key Metrics Dashboard -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">🗑️</div>
+                <div class="metric-value">{{ analytics.total_wasted }}</div>
+                <div class="metric-label">Total Items Wasted</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">⚖️</div>
+                <div class="metric-value">{{ analytics.total_weight_kg }} kg</div>
+                <div class="metric-label">Total Weight Wasted</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">📂</div>
+                <div class="metric-value">{{ analytics.waste_by_category|length }}</div>
+                <div class="metric-label">Categories Affected</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">📅</div>
+                <div class="metric-value">{{ analytics.monthly_waste|length }}</div>
+                <div class="metric-label">Months Tracked</div>
+            </div>
         </div>
 
-        <!-- Manually Log Waste Form -->
-        <div class="log-waste-form">
-            <h3>Log Already Wasted Food</h3>
-            <form action="/waste_analytics" method="POST">
-                <label for="name">Food Name:</label>
-                <input type="text" id="name" name="name" required>
+        <!-- Category Breakdown -->
+        <div class="section-card">
+            <h2>📈 Waste by Category</h2>
+            {% if analytics.waste_by_category %}
+            <div class="category-grid">
+                {% for category, count in analytics.waste_by_category.items() %}
+                <div class="category-item">
+                    <div class="category-bar">
+                        <div class="bar-fill" style="width: {{ (count / analytics.total_wasted * 100) }}%;"></div>
+                    </div>
+                    <div class="category-info">
+                        <span class="category-name">{{ category }}</span>
+                        <span class="category-count">{{ count }} items</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-data">No waste data available yet</p>
+            {% endif %}
+        </div>
 
-                <label for="category">Category:</label>
-                <select id="category" name="category" required>
-                    <option value="Fruits">Fruits</option>
-                    <option value="Vegetables">Vegetables</option>
-                    <option value="Dairy">Dairy</option>
-                    <option value="Meat">Meat</option>
-                    <option value="Seafood">Seafood</option>
-                    <option value="Bakery">Bakery</option>
-                    <option value="Canned Goods">Canned Goods</option>
-                    <option value="Frozen Foods">Frozen Foods</option>
-                    <option value="Snacks">Snacks</option>
-                    <option value="Beverages">Beverages</option>
-                    <option value="Leftovers">Leftovers</option>
-                    <option value="Other">Other</option>
-                </select>
+        <!-- Monthly Reports -->
+        <div class="section-card">
+            <h2>📅 Monthly Waste Reports</h2>
+            {% if analytics.monthly_waste %}
+            <div class="monthly-reports">
+                {% for month, data in analytics.monthly_waste.items() %}
+                <div class="month-card">
+                    <div class="month-header">
+                        <h3>{{ month }}</h3>
+                        <span class="month-count">{{ data.count }} items</span>
+                    </div>
+                    <div class="month-categories">
+                        {% for cat, cnt in data.categories.items() %}
+                        <span class="cat-badge">{{ cat }}: {{ cnt }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-data">No monthly data available</p>
+            {% endif %}
+        </div>
 
-                <label for="quantity">Quantity (Optional):</label>
-                <input type="number" id="quantity" name="quantity">
-
-                <label for="unit">Unit (Optional):</label>
-                <select id="unit" name="unit">
-                    <option value="">-- Select Unit --</option>
-                    <option value="pieces">Pieces</option>
-                    <option value="grams">Grams</option>
-                    <option value="kg">Kilograms</option>
-                    <option value="ml">Milliliters</option>
-                    <option value="liters">Liters</option>
-                    <option value="packs">Packs</option>
-                    <option value="bottles">Bottles</option>
-                    <option value="boxes">Boxes</option>
-                    <option value="servings">Servings</option>
-                </select>
-
-                <label for="wasted_date">Date Wasted (Optional, defaults to today):</label>
-                <input type="date" id="wasted_date" name="wasted_date">
-
-                <button type="submit">Log Wasted Item</button>
+        <!-- Log Waste Form -->
+        <div class="section-card">
+            <h2>➕ Log Wasted Food</h2>
+            <form action="/waste_analytics" method="POST" class="waste-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Food Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="fruits">Fruits</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="dairy">Dairy</option>
+                            <option value="meat">Meat</option>
+                            <option value="seafood">Seafood</option>
+                            <option value="bakery">Bakery</option>
+                            <option value="grains">Grains</option>
+                            <option value="leftovers">Leftovers</option>
+                            <option value="beverages">Beverages</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="unit">Unit</label>
+                        <select id="unit" name="unit">
+                            <option value="kg">Kilograms (kg)</option>
+                            <option value="pieces">Pieces</option>
+                            <option value="liters">Liters</option>
+                            <option value="grams">Grams</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="wasted_date">Date Wasted</label>
+                        <input type="date" id="wasted_date" name="wasted_date">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Log Waste</button>
             </form>
         </div>
 
-         <!-- Wasted Items List -->
-        <div class="wasted-list-section">
-            <h3>Wasted Items History</h3>
+        <!-- Waste History -->
+        <div class="section-card">
+            <h2>📜 Waste History</h2>
             {% if wasted_items %}
-                <ul class="wasted-list">
-                    {% for item in wasted_items %}
-                        <li class="wasted-item">
-                            <h4>{{ item.name }}</h4>
-                            <p><strong>Category:</strong> {{ item.category }}</p>
-                            {% if item.quantity != 'N/A' %}
-                            <p><strong>Quantity:</strong> {{ item.quantity }} {{ item.unit }}</p>
-                            {% endif %}
-                            <p><strong>Date Wasted:</strong> {{ item.wasted_date }}</p>
-                            {% if item.expiry != 'N/A' %}
-                            <p><strong>Original Expiry:</strong> {{ item.expiry }}</p>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
+            <div class="waste-history">
+                {% for item in wasted_items %}
+                <div class="waste-item">
+                    <div class="item-header">
+                        <h3>{{ item.name }}</h3>
+                        <span class="item-date">{{ item.wasted_date }}</span>
+                    </div>
+                    <div class="item-details">
+                        <span class="detail-badge category">{{ item.category }}</span>
+                        {% if item.quantity != 'N/A' %}
+                        <span class="detail-badge">{{ item.quantity }} {{ item.unit }}</span>
+                        {% endif %}
+                        {% if item.expiry != 'N/A' %}
+                        <span class="detail-badge expiry">Expired: {{ item.expiry }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
             {% else %}
-                <p>No wasted items recorded yet.</p>
+            <p class="no-data">No waste history recorded</p>
             {% endif %}
         </div>
 
+        <div class="back-link">
+            <a href="/dashboard">← Back to Dashboard</a>
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Finder - Food Donation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ngo_finder.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/dashboard" class="logo">
+                <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo">
+            </a>
+            <h1>🤝 Find NGOs for Food Donation</h1>
+            <p class="subtitle">Connect with local NGOs to donate food before it expires</p>
+        </header>
+
+        {% if message %}
+        <div class="success-message">
+            <p>✓ {{ message }}</p>
+        </div>
+        {% endif %}
+
+        <div class="content-wrapper">
+            <!-- Expiring Items Section -->
+            <section class="expiring-items">
+                <h2>📦 Items Available for Donation</h2>
+                {% if expiring_items %}
+                <div class="items-grid">
+                    {% for item in expiring_items %}
+                    <div class="item-card">
+                        <div class="item-header">
+                            <h3>{{ item.name }}</h3>
+                            <span class="category-badge">{{ item.category }}</span>
+                        </div>
+                        <div class="item-details">
+                            <p><strong>Quantity:</strong> {{ item.quantity }} {{ item.unit }}</p>
+                            <p><strong>Expires:</strong> {{ item.expiry }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="no-items">No items currently available for donation.</p>
+                {% endif %}
+            </section>
+
+            <!-- NGO List Section -->
+            <section class="ngo-section">
+                <h2>🏢 Nearby NGOs</h2>
+                <div class="ngo-grid">
+                    {% for ngo in ngos %}
+                    <div class="ngo-card">
+                        <div class="ngo-header">
+                            <h3>{{ ngo.name }}</h3>
+                            <span class="location-badge">📍 {{ ngo.location }}</span>
+                        </div>
+                        <div class="ngo-details">
+                            <p><strong>📞 Contact:</strong> {{ ngo.contact }}</p>
+                            <p><strong>✉️ Email:</strong> {{ ngo.email }}</p>
+                            <p><strong>📍 Address:</strong> {{ ngo.address }}</p>
+                        </div>
+                        <div class="ngo-actions">
+                            <a href="tel:{{ ngo.contact }}" class="btn btn-primary">Call Now</a>
+                            <a href="mailto:{{ ngo.email }}?subject=Food Donation Request&body=Hello, we have food items available for donation." class="btn btn-secondary">Email</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <div class="back-link">
+            <a href="/dashboard">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,19 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Smart Food Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 <body>
-    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="SmartFoodTracker Logo" class="logo">
     <div class="dashboard-container">
-        <h1>Smart Food Tracker</h1>
-        <div class="buttons">
-            <a href="/add_food">Add Food</a>
-            <a href="/view_food">View Food</a>
-            <a href="/notifications">Notifications</a>
-            <a href="/waste_analytics">Waste Analytics</a> <!-- Added link -->
-            <a href="/logout">Logout</a>
+        <header class="dashboard-header">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" class="logo">
+            <h1>🥗 Smart Food Tracker</h1>
+            <p class="welcome-text">Restaurant-Grade Food Management System</p>
+        </header>
+
+        <div class="features-grid">
+            <a href="/add_food" class="feature-card">
+                <div class="card-icon">➕</div>
+                <h3>Add Food</h3>
+                <p>Track new inventory items</p>
+            </a>
+
+            <a href="/view_food" class="feature-card">
+                <div class="card-icon">📦</div>
+                <h3>View Inventory</h3>
+                <p>Monitor all food items</p>
+            </a>
+
+            <a href="/notifications" class="feature-card highlight">
+                <div class="card-icon">🔔</div>
+                <h3>Expiry Alerts</h3>
+                <p>Items expiring soon</p>
+            </a>
+
+            <a href="/ngo_finder" class="feature-card">
+                <div class="card-icon">🤝</div>
+                <h3>NGO Finder</h3>
+                <p>Donate food to NGOs</p>
+            </a>
+
+            <a href="/waste_analytics" class="feature-card">
+                <div class="card-icon">📊</div>
+                <h3>Waste Analytics</h3>
+                <p>Track & reduce waste</p>
+            </a>
+
+            <a href="/logout" class="feature-card logout">
+                <div class="card-icon">🚪</div>
+                <h3>Logout</h3>
+                <p>Sign out</p>
+            </a>
+        </div>
+
+        <div class="iot-info">
+            <h4>📡 IoT Integration Active</h4>
+            <p>Load cell monitoring enabled for real-time weight tracking</p>
         </div>
     </div>
 </body>

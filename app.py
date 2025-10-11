@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, make_response
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import os
@@ -232,10 +232,37 @@ def waste_analytics():
 
     valid_wasted_items.sort(key=lambda x: datetime.strptime(x['wasted_date'], '%Y-%m-%d'), reverse=True)
 
+    # Monthly grouping
+    monthly_waste = {}
+    total_weight_wasted = 0
+    
+    for item in valid_wasted_items:
+        waste_date = datetime.strptime(item['wasted_date'], '%Y-%m-%d')
+        month_key = waste_date.strftime('%B %Y')
+        
+        if month_key not in monthly_waste:
+            monthly_waste[month_key] = {
+                'count': 0,
+                'items': [],
+                'categories': Counter()
+            }
+        
+        monthly_waste[month_key]['count'] += 1
+        monthly_waste[month_key]['items'].append(item)
+        monthly_waste[month_key]['categories'][item.get('category', 'Unknown')] += 1
+        
+        # Calculate total weight
+        try:
+            if item.get('unit') == 'kg':
+                total_weight_wasted += float(item.get('quantity', 0))
+        except (ValueError, TypeError):
+            pass
 
     analytics = {
         'total_wasted': total_wasted,
-        'waste_by_category': dict(waste_by_category)
+        'waste_by_category': dict(waste_by_category),
+        'monthly_waste': monthly_waste,
+        'total_weight_kg': round(total_weight_wasted, 2)
     }
     # Pass the sorted, valid items to the template
     return render_template('waste_analytics.html', analytics=analytics, wasted_items=valid_wasted_items)
@@ -298,10 +325,124 @@ def view_food():
 
     return render_template('view_food.html', foods=food_items)
 
+@app.route('/ngo_finder', methods=['GET', 'POST'])
+def ngo_finder():
+    if 'username' not in session:
+        return redirect('/login')
+    
+    if request.method == 'POST':
+        # Handle donation request
+        username = session['username']
+        ngo_name = request.form.get('ngo_name')
+        item_indices = request.form.getlist('items')
+        
+        # You can implement email/SMS notification to NGO here
+        return render_template('ngo_finder.html', message=f'Donation request sent to {ngo_name}')
+    
+    # Sample NGOs (can be moved to database later)
+    ngos = [
+        {'name': 'Akshaya Patra Foundation', 'location': 'Nearby', 'contact': '+91-80-30143400', 'email': 'info@akshayapatra.org', 'address': 'Bengaluru, Karnataka'},
+        {'name': 'Feeding India', 'location': '5 km away', 'contact': '+91-11-40564444', 'email': 'contact@feedingindia.org', 'address': 'Delhi NCR'},
+        {'name': 'Robin Hood Army', 'location': '3 km away', 'contact': '+91-98765-43210', 'email': 'local@robinhoodarmy.com', 'address': 'Mumbai, Maharashtra'},
+        {'name': 'Annakshetra Foundation', 'location': '7 km away', 'contact': '+91-22-12345678', 'email': 'help@annakshetra.org', 'address': 'Pune, Maharashtra'},
+    ]
+    
+    # Get expiring items for donation
+    username = session['username']
+    all_data = load_data(FOOD_FILE)
+    user_data_raw = all_data.get(username)
+    
+    food_data = []
+    if isinstance(user_data_raw, dict):
+        food_data = user_data_raw.get('items', [])
+    
+    expiring_items = []
+    today = datetime.today().date()
+    
+    for index, food in enumerate(food_data):
+        try:
+            expiry_date = datetime.strptime(food['expiry'], '%Y-%m-%d').date()
+            if (expiry_date - today).days <= 2 and (expiry_date - today).days >= 0:
+                food_with_index = food.copy()
+                food_with_index['index'] = index
+                expiring_items.append(food_with_index)
+        except (ValueError, KeyError):
+            continue
+    
+    return render_template('ngo_finder.html', ngos=ngos, expiring_items=expiring_items)
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect('/login')
+
+# IoT API Endpoints for Hardware Integration
+@app.route('/api/update_weight', methods=['POST'])
+def update_weight():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        item_name = data.get('item_name')
+        new_weight = float(data.get('weight', 0))
+        
+        if not username or not item_name:
+            return jsonify({'error': 'Missing required fields'}), 400
+        
+        all_data = load_data(FOOD_FILE)
+        user_data = all_data.get(username)
+        
+        if isinstance(user_data, dict) and 'items' in user_data:
+            for item in user_data['items']:
+                if item['name'].lower() == item_name.lower() and item['unit'] == 'kg':
+                    item['quantity'] = str(new_weight)
+                    save_data(FOOD_FILE, all_data)
+                    return jsonify({'success': True, 'message': f'Updated {item_name} to {new_weight}kg'}), 200
+            
+            return jsonify({'error': 'Item not found'}), 404
+        
+        return jsonify({'error': 'User not found or invalid data format'}), 404
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/get_food_items', methods=['GET'])
+def get_food_items():
+    try:
+        username = request.args.get('username')
+        
+        if not username:
+            return jsonify({'error': 'Username required'}), 400
+        
+        all_data = load_data(FOOD_FILE)
+        user_data = all_data.get(username)
+        
+        if isinstance(user_data, dict):
+            items = user_data.get('items', [])
+            return jsonify({'success': True, 'items': items}), 200
+        
+        return jsonify({'success': True, 'items': []}), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/sensor_data', methods=['POST'])
+def receive_sensor_data():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        sensor_readings = {
+            'temperature': data.get('temperature'),
+            'humidity': data.get('humidity'),
+            'methane': data.get('methane'),
+            'air_quality': data.get('air_quality'),
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        # Store sensor data (you can extend this to save to a separate file)
+        return jsonify({'success': True, 'message': 'Sensor data received'}), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
