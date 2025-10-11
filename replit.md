@@ -130,4 +130,4 @@ A Flask-based web application that helps users track food items and their expiry
 - Session management uses Flask's built-in session system
 - Cache control headers are added to all responses to prevent caching issues in Replit's iframe environment
 - The app automatically migrates old data format (list) to new format (dict with items and wasted_items)
-- **Password Security**: All new user passwords are hashed using Werkzeug's generate_password_hash. Existing users with plaintext passwords will need to re-register or have their passwords migrated manually.
+- **Password Security**: All new user passwords are hashed using Werkzeug's generate_password_hash. The login system automatically migrates legacy plaintext passwords to hashed format on first successful login, ensuring backward compatibility.

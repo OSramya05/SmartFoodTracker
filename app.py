@@ -55,11 +55,26 @@ def login():
         users = load_data(USERS_FILE)
         username = request.form['username']
         password = request.form['password']
-        if username in users and check_password_hash(users[username]['password'], password):
-            session['username'] = username
-            return redirect('/dashboard')
-        else:
-            return "Invalid credentials!"
+        
+        if username in users:
+            stored_password = users[username]['password']
+            
+            # Check if password is hashed (starts with pbkdf2:sha256: or similar)
+            if stored_password.startswith(('pbkdf2:', 'scrypt:', 'argon2:')):
+                # Hashed password - use check_password_hash
+                if check_password_hash(stored_password, password):
+                    session['username'] = username
+                    return redirect('/dashboard')
+            else:
+                # Legacy plaintext password - check directly and migrate
+                if stored_password == password:
+                    # Migrate to hashed password
+                    users[username]['password'] = generate_password_hash(password)
+                    save_data(USERS_FILE, users)
+                    session['username'] = username
+                    return redirect('/dashboard')
+        
+        return "Invalid credentials!"
     return render_template('login.html')
 
 @app.route('/dashboard')
