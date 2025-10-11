@@ -7,5 +7,11 @@
     },
     "ramya": {
         "password": "1234"
+    },
+    "mythili": {
+        "password": "scrypt:32768:8:1$qIoEhwyJg4ItjbX8$fed5f7110fdf0690ae4d34c0aedc7df97b32c02d395038d994a769c2fc6396e50aed3b3cea59251a9799002cefdb14ca096dd66000d8ca51f705fadd6a0a1eca"
+    },
+    "sats": {
+        "password": "scrypt:32768:8:1$fwOACQaHgqyMiBb3$412b95031bbec5979d849508d62b903489e0185875acd44d7dc6a3a7cc5b579b14b709dbbd9e67bef5defbd6b14c8d840238a09da2baa656770489cd40237961"
     }
 }
