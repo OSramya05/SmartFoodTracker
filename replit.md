@@ -22,6 +22,7 @@ A Flask-based web application that helps users track food items and their expiry
 - **Framework**: Flask 3.0.0
 - **Storage**: JSON files (users.json, food_data.json)
 - **Session Management**: Flask sessions with secure secret key
+- **Security**: Password hashing with Werkzeug's security utilities
 - **Production Server**: Gunicorn 21.2.0
 
 ### Frontend
@@ -87,9 +88,10 @@ A Flask-based web application that helps users track food items and their expiry
 
 ### Production (Deployment)
 - Server: Gunicorn with autoscale
-- Workers: Managed by Gunicorn
-- Port: 5000
+- Workers: 2 (configured in gunicorn_config.py)
+- Port: Uses PORT environment variable (defaults to 5000)
 - Deployment Type: Autoscale (stateless)
+- Debug Mode: Disabled in production
 
 ## Environment Variables
 - `SECRET_KEY`: Flask session secret key (auto-generated if not set)
@@ -101,8 +103,10 @@ A Flask-based web application that helps users track food items and their expiry
 - Configured Flask app for Replit environment (0.0.0.0:5000)
 - Added cache control headers to prevent caching issues
 - Set up secure session key using environment variable
+- **Security Enhancement**: Implemented password hashing using Werkzeug's security utilities
 - Configured workflow for development server
 - Set up Gunicorn deployment configuration with autoscale
+- Fixed gunicorn_config.py to use PORT environment variable for proper deployment
 - Updated .gitignore to exclude Python library paths
 
 ## User Preferences
@@ -126,3 +130,4 @@ A Flask-based web application that helps users track food items and their expiry
 - Session management uses Flask's built-in session system
 - Cache control headers are added to all responses to prevent caching issues in Replit's iframe environment
 - The app automatically migrates old data format (list) to new format (dict with items and wasted_items)
+- **Password Security**: All new user passwords are hashed using Werkzeug's generate_password_hash. Existing users with plaintext passwords will need to re-register or have their passwords migrated manually.

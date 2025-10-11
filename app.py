@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, make_response
+from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import os
 import secrets
@@ -43,7 +44,7 @@ def register():
         password = request.form['password']
         if username in users:
             return "Username already exists!"
-        users[username] = {'password': password}
+        users[username] = {'password': generate_password_hash(password)}
         save_data(USERS_FILE, users)
         return redirect('/login')
     return render_template('register.html')
@@ -54,7 +55,7 @@ def login():
         users = load_data(USERS_FILE)
         username = request.form['username']
         password = request.form['password']
-        if username in users and users[username]['password'] == password:
+        if username in users and check_password_hash(users[username]['password'], password):
             session['username'] = username
             return redirect('/dashboard')
         else:
