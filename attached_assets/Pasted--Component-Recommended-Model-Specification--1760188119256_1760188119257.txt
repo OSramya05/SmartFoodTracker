@@ -1,0 +1,19 @@
+| #  | Component                             | Recommended Model / Specification                   | Purpose                                                         |
+| -- | ------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------- |
+| 1  | **Microcontroller**                   | STM32F103C8T6 (Blue Pill)                           | Main controller to read sensors, process data, send to cloud    |
+| 2  | **Wi-Fi Module**                      | ESP8266 NodeMCU OR ESP-01                           | Internet connectivity to send data to web/app or cloud AI       |
+| 3  | **Gas Sensor 1 (Methane)**            | MQ4 Gas Sensor Module                               | Detects methane emitted by spoiled food                         |
+| 4  | **Gas Sensor 2 (Air Quality / VOCs)** | MQ135 Gas Sensor Module                             | Detects ammonia, CO₂, VOCs from decomposing food                |
+| 5  | **Load Cell (High Capacity)**         | TAL220 / TAL221 20kg or 50kg Single-Point Load Cell | Measures food/waste weight (for restaurants or large-scale use) |
+| 6  | **Load Cell Amplifier**               | HX711 24-bit ADC Module                             | Amplifies and converts load cell signal for STM32               |
+| 7  | **Temperature & Humidity Sensor**     | DHT22 (AM2302)                                      | Monitors ambient conditions affecting spoilage                  |
+| 8  | **Display Module**                    | OLED Display 0.96" (SSD1306, I²C)                   | Shows live sensor readings and status locally                   |
+| 9  | **Voltage Regulator (if needed)**     | AMS1117 3.3V Module                                 | Regulates 5V to 3.3V for STM32, ESP8266, sensors                |
+| 10 | **Power Supply**                      | 5V 2A Adapter or Battery Pack                       | Main power for the system                                       |
+| 11 | **Programmer for STM32**              | ST-Link V2                                          | Upload firmware to STM32F103C8T6                                |
+| 12 | **Resistors (for pull-ups)**          | 10 kΩ (DHT22), 4.7 kΩ (I2C OLED)                    | Ensures stable communication                                    |
+| 13 | **Capacitors (for crystal)**          | 22 pF (2 pcs)                                       | Used with external 8 MHz crystal for accurate clock             |
+| 14 | **Crystal Oscillator (optional)**     | 8 MHz Crystal                                       | More accurate system timing                                     |
+| 15 | **Jumper Wires**                      | Male-to-Male / Male-to-Female                       | Connections between components                                  |
+| 16 | **Breadboard or PCB / Perfboard**     | Standard breadboard or custom PCB                   | Mount all components                                            |
+| 17 | **Enclosure / Case**                  | Plastic or Acrylic Box                              | Protection and professional look                                |
